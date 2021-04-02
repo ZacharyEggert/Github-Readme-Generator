@@ -1,10 +1,62 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const Choices = require('inquirer/lib/objects/choices');
 
 const messageWelcome = "Welcome to the GitHub README Generator!"
 
 
 console.log(messageWelcome + "\n");
+
+const readmeOptions = async () => {
+
+    console.log('Options for README Generator: ')
+
+    const options = 
+    [
+        {
+            name: 'Project Name',
+            checked: true,
+            disabled: true
+        },{
+            name: 'Blurb',
+            checked: true
+        },{
+            name: 'Long Description',
+            checked: false
+        },{
+            name: 'Screenshot',
+            checked: false
+        },{
+            name: 'Prerequisites',
+            checked: false
+        },{
+            name: 'Usage Instructions',
+            checked: false
+        },{
+            name: 'Licence (Please)',
+            checked: true
+        },{
+            name: 'Contact',
+            checked: true
+        },{
+            name: 'Contribution Instructions',
+            checked: false
+        }
+    ]
+
+    const response = await inquirer.prompt([
+        {
+            type: 'checkbox',
+            message: 'inlude?',
+            name: 'options',
+            choices: options
+        }
+    ])
+
+    fs.writeFile('./out/options.json', JSON.stringify(response), (e) => {e?console.error(e):console.log('STORED OPTIONS IN FILE')})
+
+}
+
 
 const main = async () => {
 
@@ -105,7 +157,7 @@ ${usage}
 
 ${name} – [@${twitter}](https://twitter.com/${twitter}) – ${email}
 
-Distributed under the ${licence} license. See ``LICENSE`` for more information.
+Distributed under the ${licence} license. See \`\`LICENSE\`\` for more information.
 
 [https://github.com/${user}/${repo}](https://github.com/${user}/${repo})
 
@@ -127,3 +179,4 @@ fs.writeFile('out/README.md', readme, (e) => {e?console.error(e):console.log('Wr
 }
 
 main();
+//readmeOptions();
