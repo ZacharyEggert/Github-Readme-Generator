@@ -68,8 +68,15 @@ const main = async () => {
     const filter = chosenOptions.options
     console.log(filter);
 
-    const licences = ['MIT', 'ISC', 'GNU GPLv3', 'Apache'];
-    const ptypes = ['Website/Webapp', 'node.js module', 'Electron']
+    const licences = ['MIT', 'ISC', 'GNU GPL v3', 'Apache'];
+    const licenceData = {
+        'MIT': {badge: 'https://img.shields.io/badge/License-MIT-yellow.svg', url: 'https://opensource.org/licenses/MIT'},
+        'ISC': {badge: 'https://img.shields.io/badge/License-ISC-blue.svg', url: 'https://opensource.org/licenses/ISC'},
+        'GNU GPL v3': {badge: 'https://img.shields.io/badge/License-GPL%20v3-blue.svg', url: 'http://www.gnu.org/licenses/gpl-3.0'},
+        'Apache': {badge: 'https://img.shields.io/badge/License-Apache%202.0-blue.svg', url: 'https://opensource.org/licenses/Apache-2.0'}
+        
+    }
+    const ptypes = ['Website/Webapp', 'node.js module']
 
     const questions = {
         username: {
@@ -169,6 +176,7 @@ const main = async () => {
 `
 
 ${blurb}`}
+    if(filter.includes("Licence Badge")){readme+= ` [![License: ${licence}](${licenceData[licence].badge})](${licenceData[licence].url})`}
     if(description){readme +=
 `
 
@@ -177,9 +185,57 @@ ${description}`}
 `
 
 ![screenshot](${screenshoturl})`}
+    if(ptype === 'Website/Webapp'){readme+=
+`
+
+## Requirements
+
+* A modern browser`}
+    if(ptype === 'node.js module'){readme+=
+`
+
+## Requirements
+
+* node.js
+* npm`}
+    if(usage){readme+=
+`
+
+## Usage
+
+${usage}`}
+    if(email||licence){readme+=
+`
+
+## Meta`}
+    if(email){readme+=
+`
+
+${name} – [${twitter[0]==='@'?twitter:"@"+twitter}](https://twitter.com/${twitter[0]==='@'?twitter.subString(1):twitter}) – ${email}`}
+    if(filter.includes("Licence (Please)")){readme+=
+`
+
+Distributed under the ${licence} license. See \`\`LICENSE\`\` for more information.`}
+    if(user){readme+=
+`
+
+[https://github.com/${user}/${repo?repo:""}](https://github.com/${user}/)`}
+    if(filter.includes("Contribution Instructions"))
+    {readme+=
+`
+
+## Contributing
+
+1. [Fork](<https://github.com/${user}/${repo}/fork>)
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request`}
+    
+
 
     readme += `
-    `
+`
     fs.writeFile('out/README.md', readme, (e) => {e?console.error(e):console.log('Written to file.');})
 
 }
