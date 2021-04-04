@@ -66,7 +66,7 @@ const main = async () => {
     
     const chosenOptions = await readmeOptions();
     const filter = chosenOptions.options
-    console.log(filter);
+    //console.log(filter);
 
     const licences = ['MIT', 'ISC', 'GNU GPL v3', 'Apache'];
     const licenceData = {
@@ -156,12 +156,12 @@ const main = async () => {
     if(filter.includes("Contact")){applicableQs.push(questions.name); applicableQs.push(questions.email); applicableQs.push(questions.twitter); applicableQs.push(questions.username)}
     if(filter.includes("Contribution Instructions")){applicableQs.push(questions.reponame); if(!applicableQs.includes(questions.username)){applicableQs.push(questions.username);}}
 
-    console.log(applicableQs);
+    //console.log(applicableQs);
 
 
     const response = await inquirer.prompt(applicableQs)
 
-    console.log(response);
+    //console.log(response);
 
     const { name, user, repo, project, blurb, description, screenshoturl, ptype, usage, licence, twitter, email, contribution } = response;
 
@@ -211,7 +211,7 @@ ${usage}`}
     if(email){readme+=
 `
 
-${name} – [${twitter[0]==='@'?twitter:"@"+twitter}](https://twitter.com/${twitter[0]==='@'?twitter.subString(1):twitter}) – ${email}`}
+${name} – [${twitter[0]==='@'?twitter:"@"+twitter}](https://twitter.com/${twitter[0]==='@'?twitter.substring(1):twitter}) – ${email}`}
     if(filter.includes("Licence (Please)")){readme+=
 `
 
